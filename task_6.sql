@@ -1,5 +1,5 @@
 -- Inserts multiple rows into the customer table
-INSERT INTO `customer` (
+INSERT INTO customer (
     `customer_id`, 
     `customer_name`, 
     `email`, 

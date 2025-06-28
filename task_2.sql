@@ -1,35 +1,53 @@
--- task_2.sql
--- Script to create tables for alx_book_store database
+-- alx_book_store.sql
+-- MySQL database schema for online bookstore
 
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS alx_book_store;
+
+-- Use the database
 USE alx_book_store;
 
--- Create authors table
-CREATE TABLE IF NOT EXISTS authors (
+-- Create Authors table
+CREATE TABLE IF NOT EXISTS Authors (
     author_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    birth_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    author_name VARCHAR(215) NOT NULL
 );
 
--- Create books table
-CREATE TABLE IF NOT EXISTS books (
+-- Create Books table
+CREATE TABLE IF NOT EXISTS Books (
     book_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(130) NOT NULL,
     author_id INT NOT NULL,
-    isbn VARCHAR(20) UNIQUE NOT NULL,
+    price DOUBLE NOT NULL,
     publication_date DATE,
-    price DECIMAL(10, 2) NOT NULL,
-    stock_quantity INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
 );
 
--- Create customers table
-CREATE TABLE IF NOT EXISTS customers (
+-- Create Customers table
+CREATE TABLE IF NOT EXISTS Customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR
+    customer_name VARCHAR(215) NOT NULL,
+    email VARCHAR(215) NOT NULL,
+    address TEXT
+);
+
+-- Create Orders table
+CREATE TABLE IF NOT EXISTS Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Create Order_Details table
+CREATE TABLE IF NOT EXISTS Order_Details (
+    orderdetailid INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    book_id INT NOT NULL,
+    quantity DOUBLE NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
+
+-- Print success message
+SELECT 'Database and tables created successfully!' AS Message;
